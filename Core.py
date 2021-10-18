@@ -1,7 +1,7 @@
 #Imports
 import sqlite3
 
-DatabaseConnection = sqlite3.connect("C:\sqlite\Database.db")
+DatabaseConnection = sqlite3.connect("Database.db")
 cursor = DatabaseConnection.cursor()
 
 
