@@ -1,15 +1,25 @@
 #Imports
 import sqlite3
 
+#+------------------------------------------------
+#|  Main App class
+#|    - All methods that require a connection to 
+#|      the sqlite3 database are contained here
+#+------------------------------------------------
 class App(object):
+    #--- Define and initialise variables ---
     def __init__(self):
         #Variables
         self.DatabaseConnection = None
         self.cursor = None
         self.Options = "CreateTable(1), DeleteTable(2), ShowTables(3), ShowTableContents(4), InsertIntoTable(5), Commit(6), Close(7)"
         self.newline_indent = '\n   '
-
-
+    
+    #+---------------------------------------
+    #|  SQL functions - Create, delete, modify, show tables and entries
+    #+---------------------------------------
+    
+    #Create a new table - 
     def CreateTable(self, Name: str, Contents: str):
         self.cursor.execute('''CREATE TABLE {} ({});'''.format(Name, Contents))
 
@@ -42,20 +52,23 @@ class App(object):
     def Commit(self):
         self.DatabaseConnection.commit()
 
-
-    def Close(self):
-        self.DatabaseConnection.close()
-
-
+    #+---------------------------------------
+    #|  SQL connection functions - Establish and close the connection, prepare the cursor
+    #+---------------------------------------
     def Connect(self):
         self.DatabaseConnection = sqlite3.connect("C:\sqlite\Database\Database.db")
         print("Successfully connected to database")
-
+        
+    def Close(self):
+        self.DatabaseConnection.close()
 
     def Cursor(self):
         self.cursor = self.DatabaseConnection.cursor()
 
-
+    
+    #+---------------------------------------
+    #|  Command-line User Interface - create and manipulate data as user
+    #+---------------------------------------
     def Selections(self):
         print("\nPlease select one of the following options: {}".format(self.Options))
         Selection = str(input("Enter option 1-7: "))
@@ -104,7 +117,7 @@ class App(object):
         self.Commit()
         self.Selections()
         
-
+####################################################################################################
 def main():
     AppInstance = App()
     AppInstance.Connect()
